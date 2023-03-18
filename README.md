@@ -1,5 +1,4 @@
 # Chinese-poems-generator
-https://github.com/samejack/sc-dictionary.git
 哈囉大家好  我最近初學使用github
 這個程式是想要利用程式碼寫出5言絕句
 但是我目前還沒有能力去執行他
