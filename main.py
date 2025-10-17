@@ -9,8 +9,18 @@ load_dotenv()
 # 獲取 API 金鑰
 api_key = os.getenv("API_KEY")
 if not api_key:
-    print("錯誤：請設定您的 API_KEY 環境變數。")
-    sys.exit(1)
+    # 如果找不到 API 金鑰，提示使用者輸入
+    print("找不到您的 Google AI API 金鑰。")
+    api_key = input("請在此貼上您的 API 金鑰: ").strip()
+
+    # 將金鑰寫入 .env 檔案，以便未來使用
+    if api_key:
+        with open(".env", "w") as f:
+            f.write(f"API_KEY={api_key}\n")
+        print("API 金鑰已儲存到 .env 檔案中。")
+    else:
+        print("錯誤：未提供 API 金鑰。")
+        sys.exit(1)
 
 # 設定 Google Generative AI
 genai.configure(api_key=api_key)
