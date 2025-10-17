@@ -27,9 +27,15 @@ def generate_poem(topic: str) -> str:
     """
     model = genai.GenerativeModel('gemini-pro')
 
-    # 精心設計的提示，引導 AI 創作
-    prompt = f"請以「{topic}」為主題，創作一首富有詩意的五言絕句。風格請參考唐詩，確保每句五個字，共四句。"
-
+    # 精心設計的提示，引導 AI 創作出更具藝術性的詩歌
+    prompt = f"""
+請以「{topic}」為主題，創作一首充滿詩意的五言絕句。
+風格請模擬唐代詩人王維，著重於畫面感與意境的融合，詩句需簡潔而意蘊深遠。
+請確保詩歌符合以下要求：
+1.  每句五個字。
+2.  共四句。
+3.  風格古典，意境優美。
+"""
     try:
         response = model.generate_content(prompt)
         # 檢查是否有生成內容
@@ -37,16 +43,22 @@ def generate_poem(topic: str) -> str:
             return response.text.strip()
         else:
             return "無法生成詩句，請檢查模型的回應。"
-
     except Exception as e:
         return f"生成詩句時發生錯誤: {e}"
 
 if __name__ == "__main__":
-    # 從命令列參數獲取主題，如果沒有則使用預設主題
+    # 從命令列參數獲取主題，如果沒有則提示使用者輸入
     if len(sys.argv) > 1:
         poem_topic = sys.argv[1]
     else:
-        poem_topic = "月色"  # 預設主題
+        try:
+            poem_topic = input("請輸入您想生成詩歌的主題（例如：秋風、星空）：")
+            if not poem_topic:
+                poem_topic = "月色"  # 如果使用者未輸入任何內容，則使用預設主題
+        except EOFError:
+            poem_topic = "月色"  # 在非互動式環境中（例如 CI/CD），使用預設主題
+            print(f"未檢測到輸入，使用預設主題：{poem_topic}")
+
 
     print(f"主題：{poem_topic}\n")
     poem = generate_poem(poem_topic)
