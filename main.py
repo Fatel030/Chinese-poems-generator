@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # 獲取 API 金鑰
-api_key = os.getenv("API_KEY")
+api_key = os.getenv("GEMINI_API_KEY")
 if not api_key:
     print("錯誤：請設定您的 API_KEY 環境變數。")
     sys.exit(1)
@@ -25,7 +25,7 @@ def generate_poem(topic: str) -> str:
     Returns:
         AI 生成的詩。
     """
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-2.5-flash')
 
     # 精心設計的提示，引導 AI 創作出更具藝術性的詩歌
     prompt = f"""
